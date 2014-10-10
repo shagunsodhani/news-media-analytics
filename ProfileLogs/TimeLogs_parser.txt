@@ -1,150 +1,168 @@
+10000  lines inserted into the DB
+15466  lines inserted into the DB
 Wrote profile results to parser.py.lprof
 Timer unit: 1e-06 s
 
-Total time: 8.68494 s
+Total time: 9.41941 s
 File: parser.py
-Function: parse at line 27
+Function: parse at line 38
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
 ==============================================================
-    27                                           @profile
-    28                                           def parse():
-    29         1            5      5.0      0.0  	count = 0
-    30         1            2      2.0      0.0  	url_sha1 = {}
-    31         1            1      1.0      0.0  	urlId = 0
-    32         1            2      2.0      0.0  	timeCombId = 0
-    33         1            2      2.0      0.0  	timeId = 1
-    34         1            1      1.0      0.0  	timeCombId = 1
-    35         1            2      2.0      0.0  	combId_sha1 = []  
-    36         1            1      1.0      0.0  	timeCombmap = []
-    37         1            2      2.0      0.0  	Time = {}
-    38         1            2      2.0      0.0  	stime_curr = ""
-    39         1            2      2.0      0.0  	stime_curr_timestamp = 0
-    40         1            1      1.0      0.0  	etime_curr = ""
-    41         1            2      2.0      0.0  	etime_curr_timestamp = 0
-    42                                           
-    43         1            2      2.0      0.0  	sql_default_headline = "INSERT INTO headline (urlId, headline) VALUES "
-    44         1            2      2.0      0.0  	sql_default_urls = "INSERT INTO urls (urlId, url) VALUES "
-    45         1            1      1.0      0.0  	sql_default_time = "INSERT INTO time (timeId, time) VALUES "
-    46         1            2      2.0      0.0  	sql_default_source = "INSERT INTO source (urlId, sourceId, timeCombId) VALUES "
-    47         1            2      2.0      0.0  	sql_default_timeComb = "INSERT INTO timeComb (timeCombId, startDate, endDate) VALUES "
-    48                                           
-    49         1            1      1.0      0.0  	sql_headline = sql_default_headline
-    50         1            1      1.0      0.0  	sql_urls = sql_default_urls
-    51         1            2      2.0      0.0  	sql_time = sql_default_time
-    52         1            2      2.0      0.0  	sql_source = sql_default_source
-    53         1            1      1.0      0.0  	sql_timeComb = sql_default_timeComb
-    54                                           
-    55         1            2      2.0      0.0  	flag_urls = 0
-    56         1            2      2.0      0.0  	flag_time = 0
-    57         1            1      1.0      0.0  	flag_source = 0
-    58         1            1      1.0      0.0  	flag_timeComb = 0
-    59                                           
-    60         1           11     11.0      0.0  	parser = open("1.csv", "r")
-    61                                           
-    62         1        66403  66403.0      0.8  	conn = db.connect('news')
-    63         1           39     39.0      0.0  	cursor=conn.cursor()
-    64                                           
-    65     15467        73338      4.7      0.8  	for i in parser:
-    66     15466        29922      1.9      0.3  		if (count%MOD  == 0):
-    67         2           69     34.5      0.0  			sql_headline = sql_default_headline
-    68         2           70     35.0      0.0  			sql_urls = sql_default_urls
-    69         2            8      4.0      0.0  			sql_time = sql_default_time
-    70         2            6      3.0      0.0  			sql_source = sql_default_source
-    71         2            8      4.0      0.0  			sql_timeComb = sql_default_timeComb
-    72         2            6      3.0      0.0  			flag_urls = 0
-    73         2            7      3.5      0.0  			flag_time = 0
-    74         2            6      3.0      0.0  			flag_source = 0
-    75         2            7      3.5      0.0  			flag_timeComb = 0
+    38                                           @profile
+    39                                           def parse():
+    40                                           
+    41         1            5      5.0      0.0  	count = 0
+    42         1            2      2.0      0.0  	urlId = 0
+    43         1            1      1.0      0.0  	headlineId = 0
+    44         1            2      2.0      0.0  	timeCombId = 0
+    45         1            2      2.0      0.0  	timeId = 0
+    46         1            2      2.0      0.0  	timeCombId = 0 
+    47         1            1      1.0      0.0  	stime_curr = ""
+    48         1            2      2.0      0.0  	stime_curr_timestamp = 0
+    49         1            2      2.0      0.0  	etime_curr = ""
+    50         1            2      2.0      0.0  	etime_curr_timestamp = 0
+    51                                           
+    52         1            2      2.0      0.0  	timeCombmap = {}
+    53         1            2      2.0      0.0  	Time = {}
+    54         1            2      2.0      0.0  	headline_sha1 = {}
+    55         1            2      2.0      0.0  	url_sha1 = {}
+    56                                           
+    57         1            1      1.0      0.0  	sql_default_headline = "INSERT INTO headline (headlineId, headline) VALUES "
+    58         1            1      1.0      0.0  	sql_default_url = "INSERT INTO url (urlId, url) VALUES "
+    59         1            1      1.0      0.0  	sql_default_time = "INSERT INTO time (timeId, time) VALUES "
+    60         1            2      2.0      0.0  	sql_default_mapping = "INSERT INTO mapping (urlId, headlineId, timeCombId, sourceId) VALUES "
+    61         1            2      2.0      0.0  	sql_default_timeComb = "INSERT INTO timeComb (timeCombId, startDate, endDate) VALUES "
+    62                                           
+    63         1            2      2.0      0.0  	sql_headline = sql_default_headline
+    64         1            2      2.0      0.0  	sql_url = sql_default_url
+    65         1            2      2.0      0.0  	sql_time = sql_default_time
+    66         1            1      1.0      0.0  	sql_mapping = sql_default_mapping
+    67         1            1      1.0      0.0  	sql_timeComb = sql_default_timeComb
+    68                                           
+    69         1            1      1.0      0.0  	flag_url = 0
+    70         1            2      2.0      0.0  	flag_headline = 0
+    71         1            2      2.0      0.0  	flag_time = 0
+    72         1            2      2.0      0.0  	flag_mapping = 1
+    73         1            2      2.0      0.0  	flag_timeComb = 0
+    74                                           
+    75         1           12     12.0      0.0  	parser = open("Data/1.csv", "r")
     76                                           
-    77     15466        65107      4.2      0.7  		line = i.split(",")
-    78     15466        53359      3.5      0.6  		temp_headline = str( (line[1]).replace("\"","").replace("\'","").strip() )
-    79     15466        43844      2.8      0.5  		temp_url = str( (line[5]).replace("\"","").replace("\'","").strip() )
-    80     15466        88193      5.7      1.0  		temp_url_sha1 = hashlib.sha1(temp_url).hexdigest()
-    81     15466      2389709    154.5     27.5  		if temp_url_sha1 not in url_sha1.keys():
-    82      8417        19204      2.3      0.2  			flag_urls = 1
-    83      8417        16356      1.9      0.2  			urlId+=1
-    84      8417        26550      3.2      0.3  			url_sha1[temp_url_sha1] = str(urlId)
-    85      8417        32412      3.9      0.4  			sql_urls+="(\""+str(urlId)+"\" , \""+temp_url+ "\"), "
-    86      8417        27614      3.3      0.3  			sql_headline+="(\""+str(urlId)+"\" , \""+temp_headline + "\"), "
-    87                                           		
-    88     15466        45851      3.0      0.5  		stime = str(line[2]).strip()
-    89     15466        32559      2.1      0.4  		if stime!=stime_curr:	
-    90        59          108      1.8      0.0  			stime_curr = stime
-    91        59        29128    493.7      0.3  			stime = int(date_to_timestamp(stime))
-    92        59          141      2.4      0.0  			stime_curr_timestamp = stime 
-    93        59          364      6.2      0.0  			if stime not in Time.keys() :
-    94         1            3      3.0      0.0  				flag_time = 1
-    95         1            7      7.0      0.0  				Time[stime]=str(timeId)
-    96         1            6      6.0      0.0  				sql_time+= "(\""+str(timeId)+"\" , \"" + str(stime) + "\"), "
-    97         1            4      4.0      0.0  				timeId+=1
-    98                                           		else:
-    99     15407        28267      1.8      0.3  			stime=stime_curr_timestamp
+    77         1        72079  72079.0      0.8  	conn = db.connect('news')
+    78         1           53     53.0      0.0  	cursor=conn.cursor()
+    79                                           
+    80     15467        44840      2.9      0.5  	for i in parser:
+    81                                           
+    82     15466        30735      2.0      0.3  		if (count%MOD  == 0):
+    83         2           63     31.5      0.0  			sql_headline = sql_default_headline
+    84         2           77     38.5      0.0  			sql_url = sql_default_url
+    85         2            7      3.5      0.0  			sql_time = sql_default_time
+    86         2            5      2.5      0.0  			sql_mapping = sql_default_mapping
+    87         2            5      2.5      0.0  			sql_timeComb = sql_default_timeComb
+    88                                           			
+    89         2            5      2.5      0.0  			flag_url = 0
+    90         2            5      2.5      0.0  			flag_headline = 0
+    91         2            4      2.0      0.0  			flag_time = 0
+    92         2            5      2.5      0.0  			flag_timeComb = 0
+    93                                           
+    94     15466        60570      3.9      0.6  		line = i.split(",")
+    95     15466        52998      3.4      0.6  		temp_headline = str( (line[1]).replace("\"","\\\"").replace("\'","\\\'").strip() )
+    96     15466        46276      3.0      0.5  		temp_url = str( (line[5]).replace("\"","\\\"").replace("\'","\\\'").strip() )
+    97                                           		
+    98     15466       111746      7.2      1.2  		temp_url_sha1 = hashlib.sha1(temp_url).hexdigest()
+    99     15466        63119      4.1      0.7  		temp_headline_sha1 = hashlib.sha1(temp_headline).hexdigest()
    100                                           
-   101     15466        33785      2.2      0.4  		etime = str(line[3]).strip()
-   102     15466        30156      1.9      0.3  		if(etime!=etime_curr):		
-   103      9524        17647      1.9      0.2  			etime_curr = etime
-   104      9524      1375654    144.4     15.8  			etime = int(date_to_timestamp( etime ))
-   105      9524        23784      2.5      0.3  			etime_curr_timestamp = etime
-   106      9524        39146      4.1      0.5  			if etime not in Time.keys() :
-   107        58          105      1.8      0.0  				flag_time = 1
-   108        58          149      2.6      0.0  				Time[etime]=str(timeId)
-   109        58          222      3.8      0.0  				sql_time+= "(\""+str(timeId)+"\" , \"" + str(etime) + "\"), "
-   110        58          115      2.0      0.0  				timeId+=1
-   111                                           		else:
-   112      5942        10852      1.8      0.1  			etime=etime_curr_timestamp
-   113                                           
-   114     15466        39563      2.6      0.5  		temp_sourceId = str(line[4]).strip()
-   115     15466       109352      7.1      1.3  		temp_sourceId_sha1 = hashlib.sha1(temp_url+temp_sourceId).hexdigest()
-   116                                           
-   117     15466      1734720    112.2     20.0  		if temp_sourceId_sha1 not in combId_sha1:
-   118     13178        28846      2.2      0.3  			flag_source = 1
-   119     13178        31267      2.4      0.4  			combId_sha1.append(temp_sourceId_sha1)
-   120     13178        61107      4.6      0.7  			sql_source+= "(\""+url_sha1[temp_url_sha1] +"\" , \"" + temp_sourceId + "\", \"" + str(timeCombId) + "\"), "	
-   121                                           		
-   122     15466        44933      2.9      0.5  		key = str(stime)+str(etime)
-   123     15466       364158     23.5      4.2  		if key not in timeCombmap:
-   124      1441         2810      2.0      0.0  			flag_timeComb = 1 
-   125      1441         2957      2.1      0.0  			timeCombmap.append(key)
-   126      1441         5704      4.0      0.1  			sql_timeComb+= "(\""+str(timeCombId)+"\", \""+Time[stime]+"\", \""+Time[etime]+"\"), "
-   127      1441         2994      2.1      0.0  			timeCombId+=1
-   128                                           
-   129     15466        31976      2.1      0.4  		count+=1	
-   130     15466        34515      2.2      0.4  		if (count%MOD  == 0):
-   131                                           			
-   132         1            2      2.0      0.0  			if(flag_urls == 1):
-   133         1          480    480.0      0.0  				sql_urls = sql_urls[:-2]
-   134         1       330511 330511.0      3.8  				db.write(sql_urls, cursor, conn)
-   135         1          523    523.0      0.0  				sql_headline = sql_headline[:-2]
-   136         1       249496 249496.0      2.9  				db.write(sql_headline, cursor, conn)
-   137                                           			
-   138         1           11     11.0      0.0  			if(flag_time == 1):
-   139         1           14     14.0      0.0  				sql_time = sql_time[:-2]
-   140         1        41675  41675.0      0.5  				db.write(sql_time, cursor, conn)
-   141                                           
-   142         1            8      8.0      0.0  			if(flag_timeComb == 1):
-   143         1           23     23.0      0.0  				sql_timeComb = sql_timeComb[:-2]
-   144         1        66724  66724.0      0.8  				db.write(sql_timeComb, cursor, conn)
-   145                                           
-   146         1           10     10.0      0.0  			if(flag_source == 1):
-   147         1          124    124.0      0.0  				sql_source = sql_source[:-2]	
-   148         1       280388 280388.0      3.2  				db.write(sql_source, cursor, conn)
-   149                                           
-   150         1            2      2.0      0.0  	if(flag_urls == 1):
-   151         1          216    216.0      0.0  		sql_urls = sql_urls[:-2]
-   152         1       210868 210868.0      2.4  		db.write(sql_urls, cursor, conn)
-   153         1           99     99.0      0.0  		sql_headline = sql_headline[:-2]
-   154         1       149908 149908.0      1.7  		db.write(sql_headline, cursor, conn)
-   155                                           
-   156         1           11     11.0      0.0  	if(flag_time == 1):
-   157                                           		sql_time = sql_time[:-2]
-   158                                           		db.write(sql_time, cursor, conn)
-   159                                           
-   160         1            6      6.0      0.0  	if(flag_timeComb == 1):
-   161         1           15     15.0      0.0  		sql_timeComb = sql_timeComb[:-2]
-   162         1        58408  58408.0      0.7  		db.write(sql_timeComb, cursor, conn)
-   163                                           
-   164         1            8      8.0      0.0  	if(flag_source == 1):
-   165         1           74     74.0      0.0  		sql_source = sql_source[:-2]	
-   166         1       200087 200087.0      2.3  		db.write(sql_source, cursor, conn)
+   101     15466      2400484    155.2     25.5  		if temp_url_sha1 not in url_sha1.keys():
+   102      8417        19941      2.4      0.2  			flag_url = 1
+   103      8417        17135      2.0      0.2  			urlId+=1
+   104      8417        27392      3.3      0.3  			url_sha1[temp_url_sha1] = str(urlId)
+   105      8417        34524      4.1      0.4  			sql_url+="(\""+str(urlId)+"\" , \""+temp_url+ "\"), "
+   106                                           
+   107     15466      2636198    170.5     28.0  		if temp_headline_sha1 not in headline_sha1.keys():
+   108      9270        21792      2.4      0.2  			flag_headline = 1
+   109      9270        18610      2.0      0.2  			headlineId+=1
+   110      9270        28245      3.0      0.3  			headline_sha1[temp_headline_sha1] = str(headlineId)
+   111      9270        35885      3.9      0.4  			sql_headline+="(\""+str(headlineId)+"\" , \""+temp_headline + "\"), "
+   112                                           		
+   113     15466        49471      3.2      0.5  		stime = str(line[2]).strip()
+   114     15466        33556      2.2      0.4  		if stime!=stime_curr:	
+   115        59          107      1.8      0.0  			stime_curr = stime
+   116        59         2528     42.8      0.0  			stime = int(date_to_timestamp(stime))
+   117        59          141      2.4      0.0  			stime_curr_timestamp = stime 
+   118        59          240      4.1      0.0  			if stime not in Time.keys() :
+   119         1            3      3.0      0.0  				timeId+=1
+   120         1            3      3.0      0.0  				flag_time = 1
+   121         1            4      4.0      0.0  				Time[stime]=str(timeId)
+   122         1            5      5.0      0.0  				sql_time+= "(\""+str(timeId)+"\" , \"" + str(stime) + "\"), "
+   123                                           				
+   124                                           		else:
+   125     15407        28942      1.9      0.3  			stime=stime_curr_timestamp
+   126                                           
+   127     15466        34606      2.2      0.4  		etime = str(line[3]).strip()
+   128     15466        30593      2.0      0.3  		if(etime!=etime_curr):		
+   129      9524        18232      1.9      0.2  			etime_curr = etime
+   130      9524       375937     39.5      4.0  			etime = int(date_to_timestamp( etime ))
+   131      9524        23402      2.5      0.2  			etime_curr_timestamp = etime
+   132      9524        39642      4.2      0.4  			if etime not in Time.keys() :
+   133        58          165      2.8      0.0  				timeId+=1
+   134        58          156      2.7      0.0  				flag_time = 1
+   135        58          199      3.4      0.0  				Time[etime]=str(timeId)
+   136        58          280      4.8      0.0  				sql_time+= "(\""+str(timeId)+"\" , \"" + str(etime) + "\"), "
+   137                                           		else:
+   138      5942        11337      1.9      0.1  			etime=etime_curr_timestamp
+   139                                           
+   140     15466        46742      3.0      0.5  		key = str(stime)+str(etime)
+   141     15466       459996     29.7      4.9  		if key not in timeCombmap.keys():
+   142      1441         3134      2.2      0.0  			timeCombId+=1
+   143      1441         2767      1.9      0.0  			flag_timeComb = 1 
+   144      1441         3880      2.7      0.0  			timeCombmap[key] = str(timeCombId)
+   145      1441         5878      4.1      0.1  			sql_timeComb+= "(\""+str(timeCombId)+"\", \""+Time[stime]+"\", \""+Time[etime]+"\"), "
+   146                                           
+   147     15466        42323      2.7      0.4  		temp_sourceId = str(line[4]).strip()
+   148                                           
+   149     15466        64872      4.2      0.7  		sql_mapping+= "(\""+url_sha1[temp_url_sha1] +"\" , \"" + headline_sha1[temp_headline_sha1] + "\", \"" + timeCombmap[key] + "\", \" " + temp_sourceId + "\"), "	
+   150                                           
+   151     15466        32033      2.1      0.3  		count+=1	
+   152     15466        34765      2.2      0.4  		if (count%MOD  == 0):
+   153         1            2      2.0      0.0  			if(flag_url == 1):
+   154         1          509    509.0      0.0  				sql_url = sql_url[:-2]
+   155         1       580775 580775.0      6.2  				db.write(sql_url, cursor, conn)
+   156                                           
+   157         1           17     17.0      0.0  			if(flag_headline == 1):
+   158         1          816    816.0      0.0  				sql_headline = sql_headline[:-2]
+   159         1       482601 482601.0      5.1  				db.write(sql_headline, cursor, conn)
+   160                                           
+   161         1           10     10.0      0.0  			if(flag_time == 1):
+   162         1           11     11.0      0.0  				sql_time = sql_time[:-2]
+   163         1        49010  49010.0      0.5  				db.write(sql_time, cursor, conn)
+   164                                           
+   165         1           12     12.0      0.0  			if(flag_timeComb == 1):
+   166         1           24     24.0      0.0  				sql_timeComb = sql_timeComb[:-2]
+   167         1        92740  92740.0      1.0  				db.write(sql_timeComb, cursor, conn)
+   168                                           
+   169         1           11     11.0      0.0  			if(flag_mapping == 1):
+   170         1          349    349.0      0.0  				sql_mapping = sql_mapping[:-2]	
+   171         1       383359 383359.0      4.1  				db.write(sql_mapping, cursor, conn)
+   172                                           			
+   173         1           87     87.0      0.0  			print count," lines inserted into the DB"
+   174                                           
+   175         1            3      3.0      0.0  	if(flag_url == 1):
+   176         1          254    254.0      0.0  		sql_url = sql_url[:-2]
+   177         1       299782 299782.0      3.2  		db.write(sql_url, cursor, conn)
+   178         1           13     13.0      0.0  	if(flag_headline == 1):
+   179         1           98     98.0      0.0  		sql_headline = sql_headline[:-2]
+   180         1       199923 199923.0      2.1  		db.write(sql_headline, cursor, conn)
+   181         1           15     15.0      0.0  	if(flag_time == 1):
+   182                                           		sql_time = sql_time[:-2]
+   183                                           		db.write(sql_time, cursor, conn)
+   184         1            8      8.0      0.0  	if(flag_timeComb == 1):
+   185         1           20     20.0      0.0  		sql_timeComb = sql_timeComb[:-2]
+   186         1        51633  51633.0      0.5  		db.write(sql_timeComb, cursor, conn)
+   187         1            8      8.0      0.0  	if(flag_mapping == 1):
+   188         1           99     99.0      0.0  		sql_mapping = sql_mapping[:-2]	
+   189         1       208340 208340.0      2.2  		db.write(sql_mapping, cursor, conn)
+   190                                           
+   191         1           24     24.0      0.0  	print count," lines inserted into the DB"
+   192                                           
+   193         1           51     51.0      0.0  	cursor.close()
 
