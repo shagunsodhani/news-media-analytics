@@ -1,0 +1,156 @@
+[
+    {
+        "type"    : "database",
+        "name"    : "NEWS",
+        "depends" : []
+    },
+
+    {
+        "type"    : "table",
+        "name"    : "url",
+        "depends" : [
+                        "NEWS"
+                    ]
+    },
+
+    {
+        "type"    : "table",
+        "name"    : "headline",
+        "depends" : [
+                        "NEWS"
+                    ]
+    },
+
+    {
+        "type"    : "table",
+        "name"    : "time",
+        "depends" : [
+                        "NEWS"
+                    ]
+    },
+
+    {
+        "type"    : "table",
+        "name"    : "timeComb",
+        "depends" : [
+                        "NEWS"
+                    ]
+    },
+
+    {
+        "type"    : "table",
+        "name"    : "mapping",
+        "depends" : [
+                        "NEWS"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "URL.urlId",
+        "depends" : [
+                        "url"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "URL.url",
+        "depends" : [
+                        "url"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "HEADLINE.headline",
+        "depends" : [
+                        "headline"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "HEADLINE.headlineId",
+        "depends" : [
+                        "headline"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "TIME.timeId",
+        "depends" : [
+                        "time"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "TIME.time",
+        "depends" : [
+                        "time"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "TIMECOMB.timeCombId",
+        "depends" : [
+                        "timeComb"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "TIMECOMB.startDate",
+        "depends" : [
+                        "timeComb",
+                        "TIME.timeId"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "TIMECOMB.endDate",
+        "depends" : [
+                        "timeComb",
+                        "TIME.timeId"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "MAPPING.urlId",
+        "depends" : [
+                        "mapping",
+                        "URL.urlId"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "MAPPING.headlineId",
+        "depends" : [
+                        "mapping",
+                        "HEADLINE.headlineId"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "MAPPING.timeCombId",
+        "depends" : [
+                        "mapping",
+                        "TIMECOMB.timeCombId"
+                    ]
+    },
+
+    {
+        "type"    : "attribute",
+        "name"    : "MAPPING.sourceId",
+        "depends" : [
+                        "mapping"
+                    ]
+    }
+]
