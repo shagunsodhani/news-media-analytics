@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 10, 2014 at 02:25 AM
+-- Generation Time: Oct 10, 2014 at 04:18 PM
 -- Server version: 5.5.38-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -27,31 +27,26 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `headline` (
-  `urlId` int(11) NOT NULL,
-  `headline` text NOT NULL,
-  PRIMARY KEY (`urlId`),
-  UNIQUE KEY `urlId_3` (`urlId`),
-  KEY `urlId` (`urlId`),
-  KEY `urlId_2` (`urlId`),
-  KEY `urlId_4` (`urlId`),
-  KEY `urlId_5` (`urlId`)
+  `headlineId` int(11) NOT NULL,
+  `headline` varchar(500) NOT NULL,
+  PRIMARY KEY (`headlineId`),
+  UNIQUE KEY `headline` (`headline`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `source`
+-- Table structure for table `mapping`
 --
 
-CREATE TABLE IF NOT EXISTS `source` (
+CREATE TABLE IF NOT EXISTS `mapping` (
   `urlId` int(11) NOT NULL,
-  `sourceId` int(11) NOT NULL,
+  `headlineId` int(11) NOT NULL,
   `timeCombId` int(11) NOT NULL,
-  PRIMARY KEY (`urlId`,`sourceId`),
-  KEY `timeCombId` (`timeCombId`),
-  KEY `urlId` (`urlId`),
-  KEY `sourceId` (`sourceId`),
-  KEY `timeCombId_2` (`timeCombId`)
+  `sourceId` int(11) NOT NULL,
+  PRIMARY KEY (`urlId`,`headlineId`,`timeCombId`,`sourceId`),
+  KEY `headlineId` (`headlineId`),
+  KEY `timeCombId` (`timeCombId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -62,9 +57,9 @@ CREATE TABLE IF NOT EXISTS `source` (
 
 CREATE TABLE IF NOT EXISTS `time` (
   `timeId` int(11) NOT NULL,
-  `time` text NOT NULL,
+  `time` int(11) NOT NULL,
   PRIMARY KEY (`timeId`),
-  KEY `timeId` (`timeId`)
+  UNIQUE KEY `time` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -74,30 +69,25 @@ CREATE TABLE IF NOT EXISTS `time` (
 --
 
 CREATE TABLE IF NOT EXISTS `timeComb` (
-  `timeCombID` int(11) NOT NULL,
+  `timeCombId` int(11) NOT NULL,
   `startDate` int(11) NOT NULL,
   `endDate` int(11) NOT NULL,
-  PRIMARY KEY (`timeCombID`),
-  KEY `endDate` (`endDate`),
-  KEY `startDate` (`startDate`),
-  KEY `timeCombID` (`timeCombID`),
-  KEY `timeCombID_2` (`timeCombID`),
-  KEY `endDate_2` (`endDate`),
-  KEY `startDate_2` (`startDate`)
+  PRIMARY KEY (`timeCombId`),
+  KEY `startDate` (`startDate`,`endDate`),
+  KEY `endDate` (`endDate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `urls`
+-- Table structure for table `url`
 --
 
-CREATE TABLE IF NOT EXISTS `urls` (
+CREATE TABLE IF NOT EXISTS `url` (
   `urlId` int(11) NOT NULL,
-  `url` text NOT NULL,
+  `url` varchar(250) NOT NULL,
   PRIMARY KEY (`urlId`),
-  KEY `urlId` (`urlId`),
-  KEY `urlId_2` (`urlId`)
+  UNIQUE KEY `url` (`url`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -105,10 +95,19 @@ CREATE TABLE IF NOT EXISTS `urls` (
 --
 
 --
--- Constraints for table `source`
+-- Constraints for table `mapping`
 --
-ALTER TABLE `source`
-  ADD CONSTRAINT `source_ibfk_1` FOREIGN KEY (`urlId`) REFERENCES `urls` (`urlId`);
+ALTER TABLE `mapping`
+  ADD CONSTRAINT `mapping_ibfk_3` FOREIGN KEY (`timeCombId`) REFERENCES `timeComb` (`timeCombId`),
+  ADD CONSTRAINT `mapping_ibfk_1` FOREIGN KEY (`urlId`) REFERENCES `url` (`urlId`),
+  ADD CONSTRAINT `mapping_ibfk_2` FOREIGN KEY (`headlineId`) REFERENCES `headline` (`headlineId`);
+
+--
+-- Constraints for table `timeComb`
+--
+ALTER TABLE `timeComb`
+  ADD CONSTRAINT `timeComb_ibfk_2` FOREIGN KEY (`endDate`) REFERENCES `time` (`timeId`),
+  ADD CONSTRAINT `timeComb_ibfk_1` FOREIGN KEY (`startDate`) REFERENCES `time` (`timeId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
