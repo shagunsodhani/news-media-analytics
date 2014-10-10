@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 10, 2014 at 04:18 PM
+-- Generation Time: Oct 10, 2014 at 06:03 PM
 -- Server version: 5.5.38-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -28,9 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `headline` (
   `headlineId` int(11) NOT NULL,
-  `headline` varchar(500) NOT NULL,
-  PRIMARY KEY (`headlineId`),
-  UNIQUE KEY `headline` (`headline`)
+  `headline` text NOT NULL,
+  PRIMARY KEY (`headlineId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -85,9 +84,8 @@ CREATE TABLE IF NOT EXISTS `timeComb` (
 
 CREATE TABLE IF NOT EXISTS `url` (
   `urlId` int(11) NOT NULL,
-  `url` varchar(250) NOT NULL,
-  PRIMARY KEY (`urlId`),
-  UNIQUE KEY `url` (`url`)
+  `url` text NOT NULL,
+  PRIMARY KEY (`urlId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -98,9 +96,9 @@ CREATE TABLE IF NOT EXISTS `url` (
 -- Constraints for table `mapping`
 --
 ALTER TABLE `mapping`
+  ADD CONSTRAINT `mapping_ibfk_5` FOREIGN KEY (`urlId`) REFERENCES `url` (`urlId`),
   ADD CONSTRAINT `mapping_ibfk_3` FOREIGN KEY (`timeCombId`) REFERENCES `timeComb` (`timeCombId`),
-  ADD CONSTRAINT `mapping_ibfk_1` FOREIGN KEY (`urlId`) REFERENCES `url` (`urlId`),
-  ADD CONSTRAINT `mapping_ibfk_2` FOREIGN KEY (`headlineId`) REFERENCES `headline` (`headlineId`);
+  ADD CONSTRAINT `mapping_ibfk_4` FOREIGN KEY (`headlineId`) REFERENCES `headline` (`headlineId`);
 
 --
 -- Constraints for table `timeComb`
