@@ -11,9 +11,9 @@ read_config();
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta charset="utf-8">
         <title><?php echo $config['title']; ?></title>
-        <link rel="stylesheet" href="bootstrap.css">
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="svg.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/db.css">
+        <link rel="stylesheet" href="css/svg.css">
     </head>
     <body>
         <!--[if lt IE 9]>
@@ -35,13 +35,13 @@ read_config();
                 <div id="docs" class="docs"></div>
             </div>
         </div>
-        <script src="jquery/jquery-1.10.2.min.js"></script>
-        <script src="d3/d3.v3.min.js"></script>
-        <script src="colorbrewer.js"></script>
-        <script src="lib/geometry.js"></script>
+        <script src="js/jquery-1.10.2.min.js"></script>
+        <script src="js/d3.v3.min.js"></script>
+        <script src="js/colorbrewer.js"></script>
+        <script src="js/geometry.js"></script>
         <script>
             var config = <?php echo json_encode($config); ?>;
         </script>
-        <script src="script.js"></script>
+        <script src="js/db.js"></script>
     </body>
 </html>
