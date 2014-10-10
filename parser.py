@@ -18,23 +18,24 @@ try:
 except ImportError as exc:
 	print("Error: failed to import settings module ({})".format(exc))
 
-count = 0
-currtime = 0
-url_sha1 = {}
-urlId = 0
-timeCombId = 0
-timeId = 1
-timeCombId = 1
-combId_sha1 = []  
-timeCombmap = []
-Time = {}
+
 MOD = 10000
 
 def date_to_timestamp(stime):
 	return time.mktime(datetime.datetime.strptime(stime, "%m/%d/%Y %H:%M").timetuple())
 
-
+@profile
 def parse():
+	count = 0
+	currtime = 0
+	url_sha1 = {}
+	urlId = 0
+	timeCombId = 0
+	timeId = 1
+	timeCombId = 1
+	combId_sha1 = []  
+	timeCombmap = []
+	Time = {}
 	parser = open("1.csv", "r")
 
 	conn = db.connect('news')
