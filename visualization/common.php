@@ -3,7 +3,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 require_once 'markdown/Markdown.inc.php';
 use \Michelf\Markdown;
 
-$dataset    = 'default';
+$dataset    = 'news';
 $dataset_qs = '';
 if (isset($_GET['dataset'])) {
     if (!preg_match('@[^a-z0-9-_ ]@i', $_GET['dataset'])) {
