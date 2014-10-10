@@ -18,7 +18,6 @@ try:
 except ImportError as exc:
 	print("Error: failed to import settings module ({})".format(exc))
 
-
 MOD = 10000
 
 def date_to_timestamp(stime):
@@ -36,7 +35,7 @@ def date_to_timestamp(stime):
 	return time.mktime(a)
 	
 @profile
-def parse():
+def parse(filename):
 
 	count = 0
 	urlId = 0
@@ -69,11 +68,10 @@ def parse():
 	flag_url = 0
 	flag_headline = 0
 	flag_time = 0
-	flag_mapping = 1
+	flag_mapping = 1 #as mapping will be generated every time
 	flag_timeComb = 0
 
-	parser = open("Data/1.csv", "r")
-
+	parser = open(filename, "r")
 	conn = db.connect('news')
 	cursor=conn.cursor()
 
@@ -175,15 +173,19 @@ def parse():
 	if(flag_url == 1):
 		sql_url = sql_url[:-2]
 		db.write(sql_url, cursor, conn)
+
 	if(flag_headline == 1):
 		sql_headline = sql_headline[:-2]
 		db.write(sql_headline, cursor, conn)
+	
 	if(flag_time == 1):
 		sql_time = sql_time[:-2]
 		db.write(sql_time, cursor, conn)
+	
 	if(flag_timeComb == 1):
 		sql_timeComb = sql_timeComb[:-2]
 		db.write(sql_timeComb, cursor, conn)
+	
 	if(flag_mapping == 1):
 		sql_mapping = sql_mapping[:-2]	
 		db.write(sql_mapping, cursor, conn)
@@ -197,4 +199,5 @@ def parse():
 	# print sql_source
 	# print sql_timeComb		
 
-parse()
+filename = "Data/1.csv"
+parse(filename)
