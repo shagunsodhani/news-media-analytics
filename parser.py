@@ -33,93 +33,97 @@ MOD = 10000
 def date_to_timestamp(stime):
 	return time.mktime(datetime.datetime.strptime(stime, "%m/%d/%Y %H:%M").timetuple())
 
-parser = open("1.csv", "r")
 
-conn = db.connect('news')
-cursor=conn.cursor()
+def parse():
+	parser = open("1.csv", "r")
 
-ql_headline = ""
-sql_urls = ""
-sql_time = ""
-sql_source = ""
-sql_timeComb = ""
+	conn = db.connect('news')
+	cursor=conn.cursor()
 
-for i in parser:
-	if (count%MOD  == 0):
-		sql_headline = "INSERT INTO headline (urlId, headline) VALUES "
-		sql_urls = "INSERT INTO urls (urlId, url) VALUES "
-		sql_time = "INSERT INTO time (timeId, time) VALUES "
-		sql_source = "INSERT INTO source (urlId, sourceId, timeCombId) VALUES "
-		sql_timeComb = "INSERT INTO timeComb (timeCombId, startDate, endDate) VALUES "		
-	line = i.split(",")
-	temp_headline = str( (line[1]).replace("\"","").replace("\'","").strip() )
-	temp_url = str( (line[5]).replace("\"","").replace("\'","").strip() )
-	temp_url_sha1 = hashlib.sha1(temp_url).hexdigest()
-	if temp_url_sha1 not in url_sha1.keys():
-		urlId+=1
-		url_sha1[temp_url_sha1] = str(urlId)
-		sql_urls+="(\""+str(urlId)+"\" , \""+temp_url+ "\"), "
-		sql_headline+="(\""+str(urlId)+"\" , \""+temp_headline + "\"), "
+	ql_headline = ""
+	sql_urls = ""
+	sql_time = ""
+	sql_source = ""
+	sql_timeComb = ""
+
+	for i in parser:
+		if (count%MOD  == 0):
+			sql_headline = "INSERT INTO headline (urlId, headline) VALUES "
+			sql_urls = "INSERT INTO urls (urlId, url) VALUES "
+			sql_time = "INSERT INTO time (timeId, time) VALUES "
+			sql_source = "INSERT INTO source (urlId, sourceId, timeCombId) VALUES "
+			sql_timeComb = "INSERT INTO timeComb (timeCombId, startDate, endDate) VALUES "		
+		line = i.split(",")
+		temp_headline = str( (line[1]).replace("\"","").replace("\'","").strip() )
+		temp_url = str( (line[5]).replace("\"","").replace("\'","").strip() )
+		temp_url_sha1 = hashlib.sha1(temp_url).hexdigest()
+		if temp_url_sha1 not in url_sha1.keys():
+			urlId+=1
+			url_sha1[temp_url_sha1] = str(urlId)
+			sql_urls+="(\""+str(urlId)+"\" , \""+temp_url+ "\"), "
+			sql_headline+="(\""+str(urlId)+"\" , \""+temp_headline + "\"), "
+			
+		stime = int(date_to_timestamp( str(line[2]).strip() )) 
+		if stime not in Time.keys() :
+			Time[stime]=str(timeId)
+			sql_time+= "(\""+str(timeId)+"\" , \"" + str(stime) + "\"), "
+			timeId+=1
+
+		etime = int(date_to_timestamp( str(line[3]).strip() ))
+		if etime not in Time.keys() :
+			Time[etime]=str(timeId)
+			sql_time+= "(\""+str(timeId)+"\" , \"" + str(etime) + "\"), "
+			timeId+=1
 		
-	stime = int(date_to_timestamp( str(line[2]).strip() )) 
-	if stime not in Time.keys() :
-		Time[stime]=str(timeId)
-		sql_time+= "(\""+str(timeId)+"\" , \"" + str(stime) + "\"), "
-		timeId+=1
+		temp_sourceId = str(line[4]).strip()
+		temp_sourceId_sha1 = hashlib.sha1(temp_url+temp_sourceId).hexdigest()
 
-	etime = int(date_to_timestamp( str(line[3]).strip() ))
-	if etime not in Time.keys() :
-		Time[etime]=str(timeId)
-		sql_time+= "(\""+str(timeId)+"\" , \"" + str(etime) + "\"), "
-		timeId+=1
-	
-	temp_sourceId = str(line[4]).strip()
-	temp_sourceId_sha1 = hashlib.sha1(temp_url+temp_sourceId).hexdigest()
+		if temp_sourceId_sha1 not in combId_sha1:
+			combId_sha1.append(temp_sourceId_sha1)
+			sql_source+= "(\""+url_sha1[temp_url_sha1] +"\" , \"" + temp_sourceId + "\", \"" + str(timeCombId) + "\"), "	
+		
+		key = str(stime)+str(etime)
+		if key not in timeCombmap:
+			timeCombmap.append(key)
+			sql_timeComb+= "(\""+str(timeCombId)+"\", \""+Time[stime]+"\", \""+Time[etime]+"\"), "
+			timeCombId+=1
 
-	if temp_sourceId_sha1 not in combId_sha1:
-		combId_sha1.append(temp_sourceId_sha1)
-		sql_source+= "(\""+url_sha1[temp_url_sha1] +"\" , \"" + temp_sourceId + "\", \"" + str(timeCombId) + "\"), "	
-	
-	key = str(stime)+str(etime)
-	if key not in timeCombmap:
-		timeCombmap.append(key)
-		sql_timeComb+= "(\""+str(timeCombId)+"\", \""+Time[stime]+"\", \""+Time[etime]+"\"), "
-		timeCombId+=1
+		count+=1	
+		if (count%MOD  == 0):
+			sql_headline = sql_headline[:-2]
+			sql_urls = sql_urls[:-2]
+			sql_time = sql_time[:-2]
+			sql_source = sql_source[:-2]
+			sql_timeComb = sql_timeComb[:-2]
 
-	count+=1	
-	if (count%MOD  == 0):
-		sql_headline = sql_headline[:-2]
-		sql_urls = sql_urls[:-2]
-		sql_time = sql_time[:-2]
-		sql_source = sql_source[:-2]
-		sql_timeComb = sql_timeComb[:-2]
+			db.write(sql_urls, cursor, conn)
+			db.write(sql_headline, cursor, conn)
+			db.write(sql_time, cursor, conn)
+			db.write(sql_timeComb, cursor, conn)
+			db.write(sql_source, cursor, conn)
 
-		db.write(sql_urls, cursor, conn)
-		db.write(sql_headline, cursor, conn)
-		db.write(sql_time, cursor, conn)
-		db.write(sql_timeComb, cursor, conn)
-		db.write(sql_source, cursor, conn)
+			# print "\n\n Mehta"
+			# print sql_headline
+			# print sql_urls
+			# print sql_time
+			# print sql_source
+			# print sql_timeComb
 
-		# print "\n\n Mehta"
-		# print sql_headline
-		# print sql_urls
-		# print sql_time
-		# print sql_source
-		# print sql_timeComb
+	sql_headline = sql_headline[:-2]
+	sql_urls = sql_urls[:-2]
+	sql_time = sql_time[:-2]
+	sql_source = sql_source[:-2]
+	sql_timeComb = sql_timeComb[:-2]
+	db.write(sql_urls, cursor, conn)
+	db.write(sql_headline, cursor, conn)
+	db.write(sql_time, cursor, conn)
+	db.write(sql_timeComb, cursor, conn)
+	db.write(sql_source, cursor, conn)
 
-sql_headline = sql_headline[:-2]
-sql_urls = sql_urls[:-2]
-sql_time = sql_time[:-2]
-sql_source = sql_source[:-2]
-sql_timeComb = sql_timeComb[:-2]
-db.write(sql_urls, cursor, conn)
-db.write(sql_headline, cursor, conn)
-db.write(sql_time, cursor, conn)
-db.write(sql_timeComb, cursor, conn)
-db.write(sql_source, cursor, conn)
+	# print sql_headline
+	# print sql_urls	
+	# print sql_time
+	# print sql_source
+	# print sql_timeComb		
 
-# print sql_headline
-# print sql_urls	
-# print sql_time
-# print sql_source
-# print sql_timeComb		
+parse()
