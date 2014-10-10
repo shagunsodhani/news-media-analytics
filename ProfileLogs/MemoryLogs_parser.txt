@@ -1,0 +1,148 @@
+Filename: parser.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    27    7.594 MiB    0.000 MiB   @profile
+    28                             def parse():
+    29    7.594 MiB    0.000 MiB   	count = 0
+    30    7.594 MiB    0.000 MiB   	url_sha1 = {}
+    31    7.594 MiB    0.000 MiB   	urlId = 0
+    32    7.594 MiB    0.000 MiB   	timeCombId = 0
+    33    7.594 MiB    0.000 MiB   	timeId = 1
+    34    7.594 MiB    0.000 MiB   	timeCombId = 1
+    35    7.594 MiB    0.000 MiB   	combId_sha1 = []  
+    36    7.594 MiB    0.000 MiB   	timeCombmap = []
+    37    7.594 MiB    0.000 MiB   	Time = {}
+    38    7.594 MiB    0.000 MiB   	stime_curr = ""
+    39    7.594 MiB    0.000 MiB   	stime_curr_timestamp = 0
+    40    7.594 MiB    0.000 MiB   	etime_curr = ""
+    41    7.594 MiB    0.000 MiB   	etime_curr_timestamp = 0
+    42                             
+    43    7.594 MiB    0.000 MiB   	sql_default_headline = "INSERT INTO headline (urlId, headline) VALUES "
+    44    7.594 MiB    0.000 MiB   	sql_default_urls = "INSERT INTO urls (urlId, url) VALUES "
+    45    7.594 MiB    0.000 MiB   	sql_default_time = "INSERT INTO time (timeId, time) VALUES "
+    46    7.594 MiB    0.000 MiB   	sql_default_source = "INSERT INTO source (urlId, sourceId, timeCombId) VALUES "
+    47    7.594 MiB    0.000 MiB   	sql_default_timeComb = "INSERT INTO timeComb (timeCombId, startDate, endDate) VALUES "
+    48                             
+    49    7.594 MiB    0.000 MiB   	sql_headline = sql_default_headline
+    50    7.594 MiB    0.000 MiB   	sql_urls = sql_default_urls
+    51    7.594 MiB    0.000 MiB   	sql_time = sql_default_time
+    52    7.594 MiB    0.000 MiB   	sql_source = sql_default_source
+    53    7.594 MiB    0.000 MiB   	sql_timeComb = sql_default_timeComb
+    54                             
+    55    7.594 MiB    0.000 MiB   	flag_urls = 0
+    56    7.594 MiB    0.000 MiB   	flag_time = 0
+    57    7.594 MiB    0.000 MiB   	flag_source = 0
+    58    7.594 MiB    0.000 MiB   	flag_timeComb = 0
+    59                             
+    60    7.594 MiB    0.000 MiB   	parser = open("1.csv", "r")
+    61                             
+    62    8.582 MiB    0.988 MiB   	conn = db.connect('news')
+    63    8.582 MiB    0.000 MiB   	cursor=conn.cursor()
+    64                             
+    65   12.766 MiB    4.184 MiB   	for i in parser:
+    66   12.766 MiB    0.000 MiB   		if (count%MOD  == 0):
+    67   12.207 MiB   -0.559 MiB   			sql_headline = sql_default_headline
+    68   11.637 MiB   -0.570 MiB   			sql_urls = sql_default_urls
+    69   11.637 MiB    0.000 MiB   			sql_time = sql_default_time
+    70   11.637 MiB    0.000 MiB   			sql_source = sql_default_source
+    71   11.637 MiB    0.000 MiB   			sql_timeComb = sql_default_timeComb
+    72   11.637 MiB    0.000 MiB   			flag_urls = 0
+    73   11.637 MiB    0.000 MiB   			flag_time = 0
+    74   11.637 MiB    0.000 MiB   			flag_source = 0
+    75   11.637 MiB    0.000 MiB   			flag_timeComb = 0
+    76                             
+    77   12.766 MiB    1.129 MiB   		line = i.split(",")
+    78   12.766 MiB    0.000 MiB   		temp_headline = str( (line[1]).replace("\"","").replace("\'","").strip() )
+    79   12.766 MiB    0.000 MiB   		temp_url = str( (line[5]).replace("\"","").replace("\'","").strip() )
+    80   12.766 MiB    0.000 MiB   		temp_url_sha1 = hashlib.sha1(temp_url).hexdigest()
+    81   12.766 MiB    0.000 MiB   		if temp_url_sha1 not in url_sha1.keys():
+    82   12.766 MiB    0.000 MiB   			flag_urls = 1
+    83   12.766 MiB    0.000 MiB   			urlId+=1
+    84   12.766 MiB    0.000 MiB   			url_sha1[temp_url_sha1] = str(urlId)
+    85   12.883 MiB    0.117 MiB   			sql_urls+="(\""+str(urlId)+"\" , \""+temp_url+ "\"), "
+    86   12.883 MiB    0.000 MiB   			sql_headline+="(\""+str(urlId)+"\" , \""+temp_headline + "\"), "
+    87                             		
+    88   12.883 MiB    0.000 MiB   		stime = str(line[2]).strip()
+    89   12.883 MiB    0.000 MiB   		if stime!=stime_curr:	
+    90   12.492 MiB   -0.391 MiB   			stime_curr = stime
+    91   12.492 MiB    0.000 MiB   			stime = int(date_to_timestamp(stime))
+    92   12.492 MiB    0.000 MiB   			stime_curr_timestamp = stime 
+    93   12.492 MiB    0.000 MiB   			if stime not in Time.keys() :
+    94    8.781 MiB   -3.711 MiB   				flag_time = 1
+    95    8.781 MiB    0.000 MiB   				Time[stime]=str(timeId)
+    96    8.781 MiB    0.000 MiB   				sql_time+= "(\""+str(timeId)+"\" , \"" + str(stime) + "\"), "
+    97    8.781 MiB    0.000 MiB   				timeId+=1
+    98                             		else:
+    99   12.883 MiB    4.102 MiB   			stime=stime_curr_timestamp
+   100                             
+   101   12.883 MiB    0.000 MiB   		etime = str(line[3]).strip()
+   102   12.883 MiB    0.000 MiB   		if(etime!=etime_curr):		
+   103   12.883 MiB    0.000 MiB   			etime_curr = etime
+   104   12.883 MiB    0.000 MiB   			etime = int(date_to_timestamp( etime ))
+   105   12.883 MiB    0.000 MiB   			etime_curr_timestamp = etime
+   106   12.883 MiB    0.000 MiB   			if etime not in Time.keys() :
+   107    9.094 MiB   -3.789 MiB   				flag_time = 1
+   108    9.094 MiB    0.000 MiB   				Time[etime]=str(timeId)
+   109    9.094 MiB    0.000 MiB   				sql_time+= "(\""+str(timeId)+"\" , \"" + str(etime) + "\"), "
+   110    9.094 MiB    0.000 MiB   				timeId+=1
+   111                             		else:
+   112   12.816 MiB    3.723 MiB   			etime=etime_curr_timestamp
+   113                             
+   114   12.883 MiB    0.066 MiB   		temp_sourceId = str(line[4]).strip()
+   115   12.883 MiB    0.000 MiB   		temp_sourceId_sha1 = hashlib.sha1(temp_url+temp_sourceId).hexdigest()
+   116                             
+   117   12.883 MiB    0.000 MiB   		if temp_sourceId_sha1 not in combId_sha1:
+   118   12.883 MiB    0.000 MiB   			flag_source = 1
+   119   12.883 MiB    0.000 MiB   			combId_sha1.append(temp_sourceId_sha1)
+   120   12.766 MiB   -0.117 MiB   			sql_source+= "(\""+url_sha1[temp_url_sha1] +"\" , \"" + temp_sourceId + "\", \"" + str(timeCombId) + "\"), "	
+   121                             		
+   122   12.766 MiB    0.000 MiB   		key = str(stime)+str(etime)
+   123   12.766 MiB    0.000 MiB   		if key not in timeCombmap:
+   124   12.492 MiB   -0.273 MiB   			flag_timeComb = 1 
+   125   12.492 MiB    0.000 MiB   			timeCombmap.append(key)
+   126   12.492 MiB    0.000 MiB   			sql_timeComb+= "(\""+str(timeCombId)+"\", \""+Time[stime]+"\", \""+Time[etime]+"\"), "
+   127   12.492 MiB    0.000 MiB   			timeCombId+=1
+   128                             
+   129   12.766 MiB    0.273 MiB   		count+=1	
+   130   12.766 MiB    0.000 MiB   		if (count%MOD  == 0):
+   131                             			
+   132   11.852 MiB   -0.914 MiB   			if(flag_urls == 1):
+   133   11.852 MiB    0.000 MiB   				sql_urls = sql_urls[:-2]
+   134   11.855 MiB    0.004 MiB   				db.write(sql_urls, cursor, conn)
+   135   12.207 MiB    0.352 MiB   				sql_headline = sql_headline[:-2]
+   136   12.207 MiB    0.000 MiB   				db.write(sql_headline, cursor, conn)
+   137                             			
+   138   12.207 MiB    0.000 MiB   			if(flag_time == 1):
+   139   12.207 MiB    0.000 MiB   				sql_time = sql_time[:-2]
+   140   12.207 MiB    0.000 MiB   				db.write(sql_time, cursor, conn)
+   141                             
+   142   12.207 MiB    0.000 MiB   			if(flag_timeComb == 1):
+   143   12.207 MiB    0.000 MiB   				sql_timeComb = sql_timeComb[:-2]
+   144   12.207 MiB    0.000 MiB   				db.write(sql_timeComb, cursor, conn)
+   145                             
+   146   12.207 MiB    0.000 MiB   			if(flag_source == 1):
+   147   12.207 MiB    0.000 MiB   				sql_source = sql_source[:-2]	
+   148   12.207 MiB    0.000 MiB   				db.write(sql_source, cursor, conn)
+   149                             
+   150   12.570 MiB    0.363 MiB   	if(flag_urls == 1):
+   151   12.570 MiB    0.000 MiB   		sql_urls = sql_urls[:-2]
+   152   12.570 MiB    0.000 MiB   		db.write(sql_urls, cursor, conn)
+   153   12.570 MiB    0.000 MiB   		sql_headline = sql_headline[:-2]
+   154   12.570 MiB    0.000 MiB   		db.write(sql_headline, cursor, conn)
+   155                             
+   156   12.570 MiB    0.000 MiB   	if(flag_time == 1):
+   157                             		sql_time = sql_time[:-2]
+   158                             		db.write(sql_time, cursor, conn)
+   159                             
+   160   12.570 MiB    0.000 MiB   	if(flag_timeComb == 1):
+   161   12.570 MiB    0.000 MiB   		sql_timeComb = sql_timeComb[:-2]
+   162   12.570 MiB    0.000 MiB   		db.write(sql_timeComb, cursor, conn)
+   163                             
+   164   12.570 MiB    0.000 MiB   	if(flag_source == 1):
+   165   12.570 MiB    0.000 MiB   		sql_source = sql_source[:-2]	
+   166   12.570 MiB    0.000 MiB   		db.write(sql_source, cursor, conn)
+   167                             
+   168   12.570 MiB    0.000 MiB   	cursor.close()
+
+

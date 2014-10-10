@@ -165,6 +165,7 @@ def parse():
 		sql_source = sql_source[:-2]	
 		db.write(sql_source, cursor, conn)
 
+	cursor.close()
 	# print sql_headline
 	# print sql_urls	
 	# print sql_time
