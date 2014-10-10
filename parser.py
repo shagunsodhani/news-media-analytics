@@ -35,6 +35,10 @@ def parse():
 	combId_sha1 = []  
 	timeCombmap = []
 	Time = {}
+	stime_curr = ""
+	stime_curr_timestamp = 0
+	etime_curr = ""
+	etime_curr_timestamp = 0
 
 	sql_default_headline = "INSERT INTO headline (urlId, headline) VALUES "
 	sql_default_urls = "INSERT INTO urls (urlId, url) VALUES "
@@ -80,21 +84,33 @@ def parse():
 			url_sha1[temp_url_sha1] = str(urlId)
 			sql_urls+="(\""+str(urlId)+"\" , \""+temp_url+ "\"), "
 			sql_headline+="(\""+str(urlId)+"\" , \""+temp_headline + "\"), "
-			
-		stime = int(date_to_timestamp( str(line[2]).strip() )) 
-		if stime not in Time.keys() :
-			flag_time = 1
-			Time[stime]=str(timeId)
-			sql_time+= "(\""+str(timeId)+"\" , \"" + str(stime) + "\"), "
-			timeId+=1
-
-		etime = int(date_to_timestamp( str(line[3]).strip() ))
-		if etime not in Time.keys() :
-			flag_time = 1
-			Time[etime]=str(timeId)
-			sql_time+= "(\""+str(timeId)+"\" , \"" + str(etime) + "\"), "
-			timeId+=1
 		
+		stime = str(line[2]).strip()
+		if stime!=stime_curr:	
+			stime_curr = stime
+			stime = int(date_to_timestamp(stime))
+			stime_curr_timestamp = stime 
+			if stime not in Time.keys() :
+				flag_time = 1
+				Time[stime]=str(timeId)
+				sql_time+= "(\""+str(timeId)+"\" , \"" + str(stime) + "\"), "
+				timeId+=1
+		else:
+			stime=stime_curr_timestamp
+
+		etime = str(line[3]).strip()
+		if(etime!=etime_curr):		
+			etime_curr = etime
+			etime = int(date_to_timestamp( etime ))
+			etime_curr_timestamp = etime
+			if etime not in Time.keys() :
+				flag_time = 1
+				Time[etime]=str(timeId)
+				sql_time+= "(\""+str(timeId)+"\" , \"" + str(etime) + "\"), "
+				timeId+=1
+		else:
+			etime=etime_curr_timestamp
+
 		temp_sourceId = str(line[4]).strip()
 		temp_sourceId_sha1 = hashlib.sha1(temp_url+temp_sourceId).hexdigest()
 
