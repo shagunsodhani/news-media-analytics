@@ -1,8 +1,8 @@
 // Various accessors that specify the four dimensions of data to visualize.
 
-function x(d) { return d.income; } //number of sources
-function y(d) { return d.lifeExpectancy; } // number of headlines
-function radius(d) { return d.population; } //number of valid urls
+function x(d) { return d.source_count; } //number of sources
+function y(d) { return d.headLine_count; } // number of headlines
+function radius(d) { return d.valid_url_count; } //number of valid urls
 function color(d) { return d.region; }
 function key(d) { return d.name; }
 
@@ -163,9 +163,9 @@ d3.json("nations.json", function(nations) {
       return {
         name: d.name,
         region: d.region,
-        income: interpolateValues(d.income, year),
-        population: interpolateValues(d.population, year),
-        lifeExpectancy: interpolateValues(d.lifeExpectancy, year)
+        source_count: interpolateValues(d.source_count, year),
+        valid_url_count: interpolateValues(d.valid_url_count, year),
+        headLine_count: interpolateValues(d.headLine_count, year)
       };
     });
   }
