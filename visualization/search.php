@@ -63,13 +63,16 @@
         </div>
          <script>
    $(document).ready(function(){
-   $.ajax({
+    $.ajax({
     type:"get",
-    url:"http://192.168.111.190/solr.php",
+    url:"http://192.168.111.190/news-media-analytics/visualization/solr.php",
     data:{search:"Obama",from:1},
     success:function(result){
       $(".col-lg-12").html(result);
     }}); 
+  });
+
+</script>
 });
    </script>
   </body>

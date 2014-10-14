@@ -4,8 +4,9 @@
     ini_set('display_errors',1);
     ini_set('html_errors', 1);
 
-    // $query = $_GET["search"];
-    // $selector  = $_GET["from"];
+    $query = $_GET["search"];
+    $selector  = $_GET["from"];
+    // echo $query;
 
     function search($query) 
     {
@@ -89,7 +90,11 @@
         echo $res;
     }
 
-    stat_1("obama");
+    if($selector==1)
+    {
+        search($query);
+    }
+    // stat_1("obama");
     
 
 ?>

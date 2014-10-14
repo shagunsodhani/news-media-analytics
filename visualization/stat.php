@@ -52,7 +52,7 @@
 
                     <div class="panel-heading">
 
-                        Panel heading
+                        Initial Data Analysis
 
                     </div>
                     <!--
@@ -72,7 +72,7 @@
                             <tr>
                                 <td>1.</td>
                                 <td>Initial Data Size</td>
-                                <td></td>
+                                <td>2.8 MB</td>
                             </tr>
                             <tr>
                                 <td>2.</td>
