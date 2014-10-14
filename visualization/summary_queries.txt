@@ -1,0 +1,14 @@
+select count(*)from mapping,url where mapping.urlId=url.urlId and url.url like 'http://%';
+
+select count(*)from mapping,url where mapping.urlId=url.urlId and url.url not like 'http://%';
+
+select distinct sourceId from mapping;
+
+select sourceId, count(*) from mapping, url where mapping.urlId = url.urlId and url.url like 'http://%' group by sourceId;
+
+select sourceId, count(*) from mapping, url where mapping.urlId = url.urlId and url.url not like 'http://%' and url.url not like "" group by sourceId;
+
+SELECT sourceId, count( * )
+FROM mapping, url
+WHERE mapping.urlId = url.urlId
+AND url.url LIKE ""
