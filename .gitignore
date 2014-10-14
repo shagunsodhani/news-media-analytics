@@ -59,6 +59,3 @@ config/config.cfg
 #Profiler
 *.lprof
 
-#json and csv
-*.json
-*.csv
