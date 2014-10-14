@@ -18,10 +18,10 @@
         <div class="container">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="home.php">Home</a></li>
+                    <li><a href="home.php">Home</a></li>
                     <li><a href="search.php">Search</a></li>
                     <li><a href="stat.php">Stats</a></li>
-                    <li><a href="team.php">Team</a></li>
+                    <li class="active"><a href="team.php">Team</a></li>
                 </ul>
                 <h3 class="text-muted">News Analytics</h3>
             </div>
