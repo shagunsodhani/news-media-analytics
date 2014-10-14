@@ -4,32 +4,92 @@
     ini_set('display_errors',1);
     ini_set('html_errors', 1);
 
+    // $query = $_GET["search"];
+    // $selector  = $_GET["from"];
 
-    function shagun() 
+    function search($query) 
     {
+        echo "<div class=\"row marketing\"><div class=\"col-lg-12\">";
+                                   
         $url = "http://192.168.111.190:8983/solr/news/select?q=";
-        $url = $url."headline%3A%22Obama%22";
-        $url = $url."&sort=startdate+desc&start=0&rows=20&fl=headline,url&wt=json&indent=true&start=0&rows=100&group=true&group.field=headline";
-        // &sort=startdate+desc&start=0&rows=20&fl=headline%2C+url%2C+startdate&wt=json&indent=true
-        // echo $url;
+        $url = $url."headline:".$query;
+        $url = $url."&sort=startdate+desc&start=0&rows=20&fl=headline,url&wt=json&indent=true&group=true&group.field=headline";
         $json = file_get_contents($url);
-        // echo gettype($json);
         $res = json_decode($json,true);
-        var_dump($res['grouped']);
+        foreach ($res['grouped']['headline']['groups'] as $i)
+        {
+            // print_r ($i);
+            echo "<p>";
+            $flag = 0;
+            if(array_key_exists ('url' , $i['doclist']['docs'][0] ) )
+            {
+                $flag = 1;
+                $url = $i['doclist']['docs'][0]['url'];
+                echo "<a href=\"".$url."\">";
+            }
+            if(array_key_exists ('headline' , $i['doclist']['docs'][0] ) )
+            {
+                $headline = $i['doclist']['docs'][0]['headline'];
+                echo $headline;
+            }
+            if($flag == 1)
+            {
+                echo "</a>";
+            }
+            echo "</p>";
+        }
+        echo "</div></div>";
     }
 
-    shagun();
+    function stat_1($query) 
+    {
+        // &fl=headline&wt=json&indent=true
+        header('Content-type: text/plain');
+        $url = "http://192.168.111.190:8983/solr/news/select?q=";
+        $url = $url."headline:".$query;
+        $url = $url."&start=0&rows=150&fq=url%3Ahttp*&fl=id&wt=json&indent=true&group=true&group.field=sourceid";
+        $json = file_get_contents($url);
+        // print_r ($json);
+        $precise = json_decode($json,true);
+        $res = "";
+        foreach ($precise['grouped']['sourceid']['groups'] as $i)
+        {
+            // print_r ($i);
+            if(array_key_exists ('groupValue' , $i ) )
+            {
+                $groupValue = $i['groupValue'];
+                if(array_key_exists ('numFound' , $i['doclist'] ) )
+                {
+                    $numFound = $i['doclist']['numFound'];
+                    $res=$res.strval($groupValue)."-valid,".strval($numFound)."\n";
+                }
+            }
+        }
+        $url = "http://192.168.111.190:8983/solr/news/select?q=";
+        $url = $url."headline:".$query;
+        $url = $url."&start=0&rows=150&-fq=url%3Ahttp*&fl=id&wt=json&indent=true&group=true&group.field=sourceid";
+        echo $url;
+        $json = file_get_contents($url);
+        // print_r ($json);
+        $precise = json_decode($json,true);
+        $res = "";
+        foreach ($precise['grouped']['sourceid']['groups'] as $i)
+        {
+            // print_r ($i);
+            if(array_key_exists ('groupValue' , $i ) )
+            {
+                $groupValue = $i['groupValue'];
+                if(array_key_exists ('numFound' , $i['doclist'] ) )
+                {
+                    $numFound = $i['doclist']['numFound'];
+                    $res=$res.strval($groupValue)."-invalid,".strval($numFound)."\n";
+                }
+            }
+        }
+        echo $res;
+    }
 
-//     $r = new HttpRequest(url, HttpRequest::METH_GET);
-//     try {
-//     $r->send();
-//     if ($r->getResponseCode() == 200) {
-//         print_r($r->getResponseBody());
-//         // file_put_contents('local.rss', $r->getResponseBody());
-//     }
-// } catch (HttpException $ex) {
-//     echo $ex;
-// }
-//     // print_r($info);
-//     echo "string";      
+    stat_1("obama");
+    
+
 ?>

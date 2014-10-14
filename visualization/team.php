@@ -37,22 +37,22 @@
                             
                             <tr>
                                 <td>11114028</td>
-                                <td>PC</td>
+                                <td>Pranay Chaudhary</td>
                             </tr>
                             <tr>
                                 <td>11114035</td>
-                                <td>Rahul</td>
+                                <td>Rahul Raj</td>
                             </tr>
                             <tr>
                                 <td>11114038</td>
-                                <td>SM</td>
+                                <td>Sanket Mehta</td>
                             </tr>
                             <tr>
                                 <td>11114039</td>
-                                <td>Shagun</td>
+                                <td>Shagun Sodhani</td>
                             </tr>
                                 <td>11114045</td>
-                                <td>SKG</td>
+                                <td>Surendra Kumar Gadwal</td>
                             </tr>
                         </table>
                     </div>
