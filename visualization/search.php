@@ -12,8 +12,8 @@
         <link rel="icon" href="../../favicon.ico">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/jumbotron-narrow.css" rel="stylesheet">
-    </head>
 
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <body>
         <div class="container">
             <div class="header">
@@ -32,7 +32,26 @@
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
                 </form>
+
+                <div id ="starttime">
+                <form role="starttime">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                </form>
+                </div>
+
+                <div id ="endtime">
+                <form role="endtime">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                </form>
+                </div>
+
             </div>
+
+
 
             <div class="row marketing">
                 <div class="col-lg-12">
@@ -47,5 +66,18 @@
                 </div>
             </div>
         </div>
+         <script>
+   $(document).ready(function(){
+   $.ajax({
+    type:"get",
+    url:"http://192.168.111.190/solr.php",
+    data:{search:"Obama",from:1},
+    success:function(result){
+      $(".col-lg-12").html(result);
+    }}); 
+});
+   </script>
   </body>
+
+
 </html>

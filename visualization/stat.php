@@ -25,7 +25,7 @@
                  <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
                         <li><a href="db.php">Schema</a></li>
-                        <li><a href="#">Intial Analysis</a></li>
+                        <li><a href="#initial-analysis">Intial Analysis</a></li>
                         <li><a href="#data-distribution">Data Distribution</a></li>
                         <li><a href="#">Export</a></li>
                     </ul>
@@ -42,7 +42,73 @@
                 <h3 class="text-muted">News Analytics</h3>
             </div>
 
-             
+            <div id="initial-analysis"> 
+                 <div class="panel panel-default">
+                    <!--
+
+                     Default panel contents 
+
+                    -->
+
+                    <div class="panel-heading">
+
+                        Panel heading
+
+                    </div>
+                    <!--
+
+                     Table 
+
+                    -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>Description</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1.</td>
+                                <td>Initial Data Size</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td>Final Data Szie</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3.</td>
+                                <td>Start Day and Time</td>
+                                <td>Fri, 03 Oct 2014 01:17:00 GMT</td>
+                            </tr>
+                            <tr>
+                                <td>4.</td>
+                                <td>End Day and Time</td>
+                                <td>Fri, 04 Oct 2014 06:17:00 GMT</td>
+                            </tr>
+                            <tr>
+                                <td>5.</td>
+                                <td>Number of Unique URLs</td>
+                                <td>8417</td>
+                            </tr>
+                            <tr>
+                                <td>6.</td>
+                                <td>Number of Unique Headlines</td>
+                                <td>9270</td>
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td>Number of Unique Sources</td>
+                                <td>124</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
             <div id="data-distribution">
                 <div id="main">
                     <div id="sequence"></div>
