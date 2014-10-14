@@ -1,16 +1,16 @@
-body {
+#main {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   font-weight: 400;
   background-color: #fff;
-  width: 960px;
+  width: 700px;
   height: 700px;
   margin-top: 10px;
 }
 
 #main {
-  float: left;
-  width: 750px;
+  /*float: left;*/
+  /*width: 750px;*/
 }
 
 #sidebar {
@@ -40,7 +40,7 @@ body {
   stroke: #fff;
 }
 
-#explanation {
+/*#explanation {
   position: absolute;
   top: 260px;
   left: 305px;
@@ -49,7 +49,7 @@ body {
   color: #666;
   z-index: -1;
 }
-
+*/
 #percentage {
   font-size: 2.5em;
 }
