@@ -79,7 +79,7 @@
         $url = "http://192.168.111.190:8983/solr/news/select?q=";
         $url = $url."headline:".$query;
         $url = $url."&start=0&rows=150&-fq=url%3Ahttp*&fl=id&wt=json&indent=true&group=true&group.field=sourceid";
-        echo $url;
+        // echo $url;
         $json = file_get_contents($url);
         // print_r ($json);
         $precise = json_decode($json,true);
@@ -103,6 +103,10 @@
     if($selector==1)
     {
         search($query);
+    }
+    if($selector==2)
+    {
+        stat_1($query);
     }
     // stat_1("obama");
     

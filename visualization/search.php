@@ -27,11 +27,21 @@
                     <li><a href="team.php">Team</a></li>
                 </ul>
                 <h3 class="text-muted">News Analytics</h3>
-            </div>
+            </div>            
 
-            <div class="jumbotron">
-
-
+            	<div id="data-distribution">
+	                <div id="main">
+	                    <div id="sequence"></div>
+	                    <div id="chart">
+	                        <div id="explanation" style="visibility: hidden;">
+	                          <span id="percentage"></span><br/>
+	                          of total headlines come from this source.
+	                        </div>
+	                    </div>
+	                </div>
+	                <br/><br/>
+	            </div>
+	            <div class="jumbotron">
                 <div class="col-lg-12">
                     <div class="input-group">
                         <input type="text" class="form-control" id="inputSearch">
@@ -104,9 +114,12 @@
     });
 
 </script>
-   <script type="text/javascript" src="js/bootstrap.min.js"></script>
-   <script src="js/moment.js"></script>
-   <script src="js/bootstrap-datetimepicker.js"></script>
+ <script src="js/jquery-1.10.2.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/moment.js"></script>
+        <script src="js/bootstrap-datetimepicker.js"></script>
+        <script src="js/d3.v3.min.js"></script>
+	   <script type="text/javascript" src="js/summary_new.js"></script>
   </body>
 
 
