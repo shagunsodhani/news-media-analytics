@@ -15,6 +15,8 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/jumbotron-narrow.css" rel="stylesheet">
         <link href="css/dashboard.css" rel="stylesheet">
+        <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+        
         
 
     </head>
@@ -27,7 +29,7 @@
                         <li><a href="db.php">Schema</a></li>
                         <li><a href="#initial-analysis">Intial Analysis</a></li>
                         <li><a href="#data-distribution">Data Distribution</a></li>
-                        <li><a href="#">Export</a></li>
+                        <li><a href="#search-distribution">Search Results Distribution</a></li>
                     </ul>
                 </div>
 
@@ -120,16 +122,67 @@
                     </div>
                 </div>
             </div>
+            
+
             <!-- <div id="sidebar">
               <input type="checkbox" id="togglelegend"> Legend<br/>
               <div id="legend" style="visibility: hidden;"></div>
             </div> -->
+
+            <div id="search-distribution">
+                <div class="jumbotron">
+
+
+                <form role="search" >
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search" id="inputSearch">
+                    </div>
+                </form>
+
+                <div class="container">
+                    <div class="col-sm-12" style="height:75px;">
+                       <div class='col-md-6'>
+                            <div class="form-group">
+                                <div class='input-group date' id='datetimepicker9'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='col-md-6'>
+                            <div class="form-group">
+                                <div class='input-group date' id='datetimepicker10'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#datetimepicker9').datetimepicker();
+                            $('#datetimepicker10').datetimepicker();
+                            $("#datetimepicker9").on("dp.change",function (e) {
+                               $('#datetimepicker10').data("DateTimePicker").setMinDate(e.date);
+                            });
+                            $("#datetimepicker10").on("dp.change",function (e) {
+                               $('#datetimepicker9').data("DateTimePicker").setMaxDate(e.date);
+                            });
+                        });
+                    </script>
                 </div>
+            </div>
+            </div>
+                </div> 
             </div>
         </div>
         
         <script src="js/jquery-1.10.2.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/moment.js"></script>
+        <script src="js/bootstrap-datetimepicker.js"></script>
         <script src="js/d3.v3.min.js"></script>
         <script type="text/javascript" src="js/summary.js"></script>
         <script type="text/javascript">
