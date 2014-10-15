@@ -83,7 +83,7 @@
         $json = file_get_contents($url);
         // print_r ($json);
         $precise = json_decode($json,true);
-        $res = "";
+        //$res = "";
         foreach ($precise['grouped']['sourceid']['groups'] as $i)
         {
             // print_r ($i);

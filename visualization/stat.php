@@ -22,6 +22,7 @@
     </head>
 
     <body>
+    <script src="js/jquery-1.10.2.min.js"></script>
         <div class="container-fluid">
             <div class="row">
                  <div class="col-sm-3 col-md-2 sidebar">
@@ -78,8 +79,8 @@
                             </tr>
                             <tr>
                                 <td>2.</td>
-                                <td>Final Data Szie</td>
-                                <td></td>
+                                <td>Final Data Size</td>
+                                <td>1.8 MB</td>
                             </tr>
                             <tr>
                                 <td>3.</td>
@@ -121,6 +122,7 @@
                         </div>
                     </div>
                 </div>
+                <br/><br/><br/><br/><br/><br/><br/>
             </div>
             
 
@@ -133,11 +135,16 @@
                 <div class="jumbotron">
 
 
-                <form role="search" >
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" id="inputSearch">
-                    </div>
-                </form>
+                <div class="col-lg-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputSearch">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id= "searchButton">Go!</button>
+                      </span>
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+                  
+                  </br></br></br></br>
                 <div class="container">
                     <div class="col-sm-12" style="height:75px;">
                        <div class='col-md-6'>
@@ -160,7 +167,7 @@
                         </div>
                     </div>
                     <script type="text/javascript">
-                        $(function () {
+                        	$(function () {
                             $('#datetimepicker9').datetimepicker();
                             $('#datetimepicker10').datetimepicker();
                             $("#datetimepicker9").on("dp.change",function (e) {
@@ -188,5 +195,22 @@
         // Hack to make this example display correctly in an iframe on bl.ocks.org
         d3.select(self.frameElement).style("height", "700px");
         </script>
+        
+        <script>
+         
+	    $(document).ready(function(){
+	    $("#searchButton").click(function(){
+	    var data = document.getElementById("inputSearch").value;
+	    $.ajax({
+	    type:"get",
+	    url:"http://192.168.111.190/news-media-analytics/visualization/solr.php",
+	    data:{search:data,from:1},
+	    success:function(result){
+	      $("#rahul").html(result);
+	    		}}); 
+	  		});
+	    });
+
+		</script>
   </body>
 </html>
