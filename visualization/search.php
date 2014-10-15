@@ -95,7 +95,7 @@
     var data = document.getElementById("inputSearch").value;
     $.ajax({
     type:"get",
-    url:"http://127.0.0.1/projects/news/visualization/solr.php",
+    url:"http://192.168.111.190/news-media-analytics/visualization/solr.php",
     data:{search:data,from:1},
     success:function(result){
       $("#rahul").html(result);
