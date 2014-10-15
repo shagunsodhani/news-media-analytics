@@ -138,7 +138,6 @@
                         <input type="text" class="form-control" placeholder="Search" id="inputSearch">
                     </div>
                 </form>
-
                 <div class="container">
                     <div class="col-sm-12" style="height:75px;">
                        <div class='col-md-6'>

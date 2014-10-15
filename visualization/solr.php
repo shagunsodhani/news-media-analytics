@@ -8,15 +8,25 @@
     $selector  = $_GET["from"];
     // echo $query;
 
-    function search($query) 
+    function search($qstring) 
     {
         echo "<div class=\"row marketing\"><div class=\"col-lg-12\">";
-                                   
+         
+        $query = explode(' ', $qstring);    
+        // var_dump($query);                       
         $url = "http://192.168.111.190:8983/solr/news/select?q=";
-        $url = $url."headline:".$query;
-        $url = $url."&sort=startdate+desc&start=0&rows=20&fl=headline,url&wt=json&indent=true&group=true&group.field=headline";
+
+        $len = count($query)-1;
+
+        for ($i = 0; $i < $len; $i++) 
+        {
+            $url = $url."headline:".$query[$i]."%20OR%20";
+        }
+        $url = $url."headline:".$query[$len];
+        $url = $url."&start=0&rows=20&fl=headline,url&wt=json&indent=true&group=true&group.field=headline";
         $json = file_get_contents($url);
         $res = json_decode($json,true);
+        // echo $url;
         foreach ($res['grouped']['headline']['groups'] as $i)
         {
             // print_r ($i);

@@ -10,12 +10,13 @@
         <title>News</title>
 
         <link rel="icon" href="../../favicon.ico">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/jumbotron-narrow.css" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
         <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
         
 
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
     <body>
         <div class="container">
             <div class="header">
@@ -31,11 +32,15 @@
             <div class="jumbotron">
 
 
-                <form role="search" >
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" id="inputSearch">
-                    </div>
-                </form>
+                <div class="col-lg-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputSearch">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id= "searchButton">Go!</button>
+                      </span>
+                    </div><!-- /input-group -->
+                  </div><!-- /.col-lg-6 -->
+                  </br></br></br></br>
 
                 <div class="container">
 				    <div class="col-sm-12" style="height:75px;">
@@ -78,7 +83,7 @@
 
 
             <div class="row marketing">
-                <div class="col-lg-12">
+                <div class="col-lg-12" id="rahul">
                     
                 </div>
             </div>
@@ -86,19 +91,19 @@
          <script>
          
    $(document).ready(function(){
+    $("#searchButton").click(function(){
+    var data = document.getElementById("inputSearch").value;
     $.ajax({
     type:"get",
-    url:"http://192.168.111.190/news-media-analytics/visualization/solr.php",
-    data:{search:"pune",from:1},
+    url:"http://127.0.0.1/projects/news/visualization/solr.php",
+    data:{search:data,from:1},
     success:function(result){
-      $(".col-lg-12").html(result);
+      $("#rahul").html(result);
     }}); 
   });
+    });
 
 </script>
-});
-
-   </script>
    <script type="text/javascript" src="js/bootstrap.min.js"></script>
    <script src="js/moment.js"></script>
    <script src="js/bootstrap-datetimepicker.js"></script>
